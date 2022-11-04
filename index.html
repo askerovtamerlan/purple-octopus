@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+ <html lang="en">
+
+<head>
+    <title></title>
+    <link href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="start">
+            <p onclick="startGame()">START</p>
+        </div>
+
+        <div id="restart">
+            <p>GAME OVER</p>
+            <p onclick="restartGame()">RESTART</p>
+            <p id="result">54</p>
+        </div>
+
+        <div id="game">
+            <div id="score">0</div>
+            <div id="octopus"></div>
+            <div id="bomb"></div>
+            <div class="playground">
+                <!--                <div class="water"></div>-->
+                <div class="underworld"></div>
+            </div>
+
+
+            <!--        <div id="water"></div>-->
+            <!--        <p>Hello World!</p>-->
+        </div>
+    </div>
+
+</body>
+<style>
+    @font-face {
+        font-family: "Anton";
+        src: url("./fonts/Anton-Regular.ttf")
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        font-family: "Anton";
+    }
+
+    .container {
+        width: 400px;
+        height: 300px;
+        border: 1px solid blue;
+        margin: 0 auto;
+        /*            overflow: hidden;*/
+    }
+
+    #start {
+        display: block;
+        background-image: url(./images/start.png);
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+    }
+
+    #start p {
+        font-size: 32px;
+        position: relative;
+        left: 170px;
+        top: 125px;
+        cursor: pointer;
+    }
+
+    #restart {
+        display: none;
+        z-index: 1;
+        background-image: url(./images/restart.png);
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    #restart p {
+        position: relative;
+    }
+
+    #restart p:first-child {
+        font-size: 32px;
+        top: 90px;
+        left: 140px;
+    }
+
+    #restart p:nth-child(2),
+    p:last-child {
+        font-size: 20px;
+    }
+
+    #restart p:nth-child(2) {
+        top: 127px;
+        left: 130px;
+        cursor: pointer;
+    }
+
+    #restart p:last-child {
+        top: 87px;
+        left: 245px;
+    }
+
+
+
+    #game {
+        width: 400px;
+        height: 300px;
+        /*            border: 1px solid blue;*/
+        margin: 0 auto;
+        overflow: hidden;
+        display: none;
+    }
+
+    #bomb {
+        width: 75px;
+        height: 75px;
+        background-image: url(./bomb.png);
+        background-size: cover;
+        position: relative;
+        left: 400px;
+        top: 150px;
+        animation: bomb 2s infinite linear;
+        z-index: 1;
+    }
+
+    #score {
+        font-family: "Anton";
+        font-size: 20px;
+        top: 18px;
+        left: 48px;
+        position: relative;
+        z-index: 1;
+        /*        color: white;*/
+    }
+
+    /*
+        #water {
+            width: 75px;
+            height: 300px;
+            background-color: blue; 
+            position: relative;
+            left: 400px;
+            animation: bomb 2s infinite linear;
+        }
+    */
+    .playground {
+        z-index: 0;
+        overflow: hidden;
+        width: 400px;
+        height: 300px;
+        position: relative;
+        top: -154px;
+    }
+
+    /*
+    .water {
+        width: 400px;
+        height: 300px;
+        background-image: url(./water.png);
+        background-size: auto;
+                top: 185px;
+        position: relative;
+        z-index: 1;
+
+    }
+*/
+
+    .underworld {
+        width: 400px;
+        height: 300px;
+        background-image: url(./underworld.png);
+        background-size: auto;
+        /*        top: 185px;*/
+        position: relative;
+        /*        z-index: 2;*/
+
+        /*        top: 250px;*/
+        /*        animation: underworld 5s infinite linear;*/
+
+        /*        left: 0px;*/
+    }
+
+    #octopus {
+        width: 118px;
+        height: 48px;
+        background-image: url(./octopus.png);
+        background-size: cover;
+        position: relative;
+        top: 100px;
+        left: 100px;
+        z-index: 1;
+    }
+
+    @keyframes bomb {
+        0% {
+            left: 400px
+        }
+
+        100% {
+            left: -50px
+        }
+    }
+
+    @keyframes underworld {
+        0% {
+            left: 400px
+        }
+
+        100% {
+            left: -450px
+        }
+    }
+</style>
+<script>
+    var JUMPING = 0;
+    var COUNTER = 0;
+    var JUMP_PWR = 0.25;
+    const OCT_LEFT = 150;
+    const BOMB_SIZE = 75;
+    const OCT_SIZE = 30;
+
+    const game = document.getElementById("game")
+    const start = document.getElementById("start")
+    const end = document.getElementById("end")
+
+    var bomb = document.getElementById("bomb")
+    const water = document.getElementById("water")
+    var octopus = document.getElementById("octopus")
+    const score = document.getElementById("score")
+    const result = document.getElementById("result")
+
+
+
+
+    bomb.addEventListener('animationiteration', () => {
+        let random = Math.random() * 150;
+        bomb.style.top = random + "px";
+        COUNTER++;
+        score.innerHTML = COUNTER;
+    })
+
+
+
+    setInterval(function() {
+        let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+
+        if (JUMPING == 0) {
+            octopus.style.top = (octopusTop + 1) + "px";
+        }
+
+        let bombLeft = parseInt(window.getComputedStyle(bomb).getPropertyValue("left"));
+        let bombTop = parseInt(window.getComputedStyle(bomb).getPropertyValue("top"));
+
+        //            console.log(bombLeft)
+
+        if ((bombLeft > 150) && (bombLeft < 185) && ((octopusTop > bombTop) && (octopusTop < (bombTop + BOMB_SIZE)))) {
+            console.log(octopusTop)
+            //                console.log(OCT_SIZE)
+            console.log(bombTop)
+
+
+
+
+
+            //                alert("Game Over");
+            endGame();
+        }
+
+
+        //            if (octopusTop>300 || octopusTop < 0 || (OCT_LEFT > bombLeft && OCT_LEFT < (bombLeft + BOMB_SIZE)) && (octopusTop > bombTop) && (octopusTop < bombTop + BOMB_SIZE)) 
+        //                alert("Game Over");
+        //                octopus.style.top = 100 + "px";
+        //            }
+        //        if (octopusTop > 300) {
+        //            endGame();
+        //        }
+    }, 10)
+
+
+    function startGame() {
+        game.style.display = "block";
+        start.style.display = "none";
+        octopus.style.top = 100 + "px";
+        COUNTER = 0;
+    }
+
+    function endGame() {
+        game.style.display = "none";
+        restart.style.display = "block";
+        clearInterval(jumpIntervl);
+        result.innerHTML = COUNTER;
+        jumpCount = 0;
+        JUMPING = 0;
+    }
+
+    function restartGame() {
+        startGame();
+        restart.style.display = "none";
+        octopus.style.top = 100 + "px";
+        COUNTER = 0;
+        score.innerHTML = COUNTER;
+    }
+
+    var jumpIntervl;
+    var jumpCount = 0;
+
+    game.addEventListener('mousedown', function() {
+        jumpIntervl = setInterval(function() {
+            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
+            jumpCount++;
+            console.log(jumpCount);
+
+            if (octopusTop < 0) {
+                clearInterval(jumpIntervl);
+            }
+
+            if (10 < jumpCount && jumpCount < 30) {
+                JUMP_PWR = 0.5
+                JUMPING = 1;
+                console.log('h')
+            } else if (30 < jumpCount && jumpCount < 70) {
+                JUMP_PWR = 0.75
+                JUMPING = 1;
+                console.log('he')
+            } else if (70 < jumpCount && jumpCount < 300) {
+                JUMP_PWR = 1
+                JUMPING = 1;
+                console.log('hey')
+
+            } else if (jumpCount > 300) {
+                clearInterval(jumpIntervl);
+                jumpCount = 0;
+                JUMPING = 0;
+                console.log('hoo')
+            }
+
+        }, 10)
+    })
+
+    game.addEventListener('mouseup', function() {
+        clearInterval(jumpIntervl);
+        jumpCount = 0;
+        JUMPING = 0;
+    })
+
+    function jump() {
+        let jumpCount = 0;
+        let jumpInterval = setInterval(function() {
+            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
+
+            if (jumpCount > 20) {
+                clearInterval(jumpInterval);
+                JUMPING = 0;
+            }
+
+            jumpCount++;
+        }, 10)
+    }
+</script></html>
