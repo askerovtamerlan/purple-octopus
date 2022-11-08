@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- <html lang="en">
+<html lang="en">
 
 <head>
     <title></title>
@@ -39,7 +39,7 @@
         font-family: "Anton";
         src: url("./fonts/Anton-Regular.ttf")
     }
-    
+
     html {
         width: 800px;
 
@@ -48,6 +48,9 @@
     * {
         padding: 0;
         margin: 0;
+        -webkit-user-select: none;
+        /* disable selection/Copy of UIWebView */
+        -webkit-touch-callout: none;
     }
 
     body {
@@ -224,6 +227,7 @@
             left: -450px
         }
     }
+
 </style>
 <script>
     var JUMPING = 0;
@@ -242,13 +246,10 @@
     var octopus = document.getElementById("octopus")
     const score = document.getElementById("score")
     const result = document.getElementById("result")
-    
+
     game.addEventListener(event, () => {
         event.preventDefault();
     })
-
-
-
 
     bomb.addEventListener('animationiteration', () => {
         let random = Math.random() * 150;
@@ -382,4 +383,7 @@
             jumpCount++;
         }, 10)
     }
-</script></html>
+
+</script>
+
+</html>
