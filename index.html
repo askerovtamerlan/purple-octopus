@@ -39,6 +39,11 @@
         font-family: "Anton";
         src: url("./fonts/Anton-Regular.ttf")
     }
+    
+    html {
+        width: 800px;
+
+    }
 
     * {
         padding: 0;
@@ -280,9 +285,9 @@
         //                alert("Game Over");
         //                octopus.style.top = 100 + "px";
         //            }
-        //        if (octopusTop > 300) {
-        //            endGame();
-        //        }
+        if (octopusTop > 300) {
+            endGame();
+        }
     }, 10)
 
 
@@ -313,7 +318,7 @@
     var jumpIntervl;
     var jumpCount = 0;
 
-    game.addEventListener('mousedown', function() {
+    function eStartHandler() {
         jumpIntervl = setInterval(function() {
             let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
             octopus.style.top = (octopusTop - JUMP_PWR) + "px";
@@ -345,13 +350,19 @@
             }
 
         }, 10)
-    })
+    }
 
-    game.addEventListener('mouseup', function() {
+    function eEndHandler() {
         clearInterval(jumpIntervl);
         jumpCount = 0;
         JUMPING = 0;
-    })
+    }
+
+    game.addEventListener('mousedown', eStartHandler)
+    game.addEventListener('touchstart', eStartHandler)
+
+    game.addEventListener('mouseup', eEndHandler)
+    game.addEventListener('touchend', eEndHandler)
 
     function jump() {
         let jumpCount = 0;
