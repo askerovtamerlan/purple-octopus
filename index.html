@@ -283,42 +283,75 @@
         score.innerHTML = COUNTER;
     })
 
+    var lastFrame = +new Date;
 
+    let time;
+    let lastTime;
 
-    setInterval(function() {
+    function pressureAnimation() {
+        //        console.log('hey')
         let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
 
         if (JUMPING == 0) {
-            octopus.style.top = (octopusTop + 1) + "px";
+            octopus.style.top = octopusTop + 1 + "px"
         }
+
 
         let bombLeft = parseInt(window.getComputedStyle(bomb).getPropertyValue("left"));
         let bombTop = parseInt(window.getComputedStyle(bomb).getPropertyValue("top"));
 
-        //            console.log(bombLeft)
+        // console.log(bombLeft)
 
         if ((bombLeft > 150) && (bombLeft < 185) && ((octopusTop > bombTop) && (octopusTop < (bombTop + BOMB_SIZE)))) {
-            console.log(octopusTop)
-            //                console.log(OCT_SIZE)
-            console.log(bombTop)
-
-
-
-
-
-            //                alert("Game Over");
+            console.log(octopusTop) // console.log(OCT_SIZE) console.log(bombTop) // alert("Game Over");}
             endGame();
         }
 
+        window.requestAnimationFrame(pressureAnimation);
+    }
 
-        //            if (octopusTop>300 || octopusTop < 0 || (OCT_LEFT > bombLeft && OCT_LEFT < (bombLeft + BOMB_SIZE)) && (octopusTop > bombTop) && (octopusTop < bombTop + BOMB_SIZE)) 
-        //                alert("Game Over");
-        //                octopus.style.top = 100 + "px";
-        //            }
-        if (octopusTop > 300) {
-            endGame();
-        }
-    }, 10)
+    window.requestAnimationFrame(pressureAnimation);
+
+
+    //    setInterval(function() {
+    //        let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+    //        
+    ////        var now = +new Date;
+    ////        deltaT = now - lastFrame;
+    //        
+    //        if (JUMPING == 0) {
+    ////            octopus.style.top = (octopusTop + 1 * deltaT/10) + "px";
+    ////            octopus.style.transform = 'translateX(1px)';
+    //              octopus.style.top = octopusTop + 1 + "px";
+    //        }
+    //
+    //        let bombLeft = parseInt(window.getComputedStyle(bomb).getPropertyValue("left"));
+    //        let bombTop = parseInt(window.getComputedStyle(bomb).getPropertyValue("top"));
+    //
+    //        //            console.log(bombLeft)
+    //
+    //        if ((bombLeft > 150) && (bombLeft < 185) && ((octopusTop > bombTop) && (octopusTop < (bombTop + BOMB_SIZE)))) {
+    //            console.log(octopusTop)
+    //            //                console.log(OCT_SIZE)
+    //            console.log(bombTop)
+    //
+    //
+    //
+    //
+    //
+    //            //                alert("Game Over");
+    //            endGame();
+    //        }
+    //
+    //
+    //        //            if (octopusTop>300 || octopusTop < 0 || (OCT_LEFT > bombLeft && OCT_LEFT < (bombLeft + BOMB_SIZE)) && (octopusTop > bombTop) && (octopusTop < bombTop + BOMB_SIZE)) 
+    //        //                alert("Game Over");
+    //        //                octopus.style.top = 100 + "px";
+    //        //            }
+    //        if (octopusTop > 300) {
+    //            endGame();
+    //        }
+    //    }, 10)
 
 
     function startGame() {
@@ -353,7 +386,7 @@
             let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
             octopus.style.top = (octopusTop - JUMP_PWR) + "px";
             jumpCount++;
-            console.log(jumpCount);
+            //            console.log(jumpCount);
 
             if (octopusTop < 0) {
                 clearInterval(jumpIntervl);
@@ -362,21 +395,21 @@
             if (10 < jumpCount && jumpCount < 30) {
                 JUMP_PWR = 0.5
                 JUMPING = 1;
-                console.log('h')
+                //                console.log('h')
             } else if (30 < jumpCount && jumpCount < 70) {
                 JUMP_PWR = 0.75
                 JUMPING = 1;
-                console.log('he')
+                //                console.log('he')
             } else if (70 < jumpCount && jumpCount < 300) {
                 JUMP_PWR = 1
                 JUMPING = 1;
-                console.log('hey')
+                //                console.log('hey')
 
             } else if (jumpCount > 300) {
                 clearInterval(jumpIntervl);
                 jumpCount = 0;
                 JUMPING = 0;
-                console.log('hoo')
+                //                console.log('hoo')
             }
 
         }, 10)
