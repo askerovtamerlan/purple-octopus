@@ -288,19 +288,19 @@
 
 //    let time;
     let lastTime;
-    let topY = 0;
+//    let topY = 0;
 
     function pressureAnimation(time) {
         //        console.log('hey')
         const delta = time - lastTime
         let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
 //        console.log(time)
-        if (JUMPING == 0) {
-//            octopus.style.top = octopusTop + (3 * (16/delta)) + "px"
+        if (JUMPING == 0 && lastTime != 0) {
+            octopus.style.top = octopusTop + (2 * (16/delta)) + "px"
 //            console.log(16/delta)
-            topY = topY + 1;
+//            topY = topY + 2;
 //            octopus.style.top = octopusTop + 1 + "px"
-              octopus.style.transform = `translateY(${topY}px)`;
+//              octopus.style.transform = `translateY(${topY}px)`;
 //            octopus.style.transform = "translateY(10px)";
 //            octopus.animate([
 //                { transform: 'translateY(5px)'}
@@ -436,11 +436,11 @@
         JUMPING = 0;
     }
 
-//    game.addEventListener('mousedown', eStartHandler)
-//    game.addEventListener('touchstart', eStartHandler)
+    game.addEventListener('mousedown', eStartHandler)
+    game.addEventListener('touchstart', eStartHandler)
     
-//    game.addEventListener('mouseup', eEndHandler)
-//    game.addEventListener('touchend', eEndHandler)
+    game.addEventListener('mouseup', eEndHandler)
+    game.addEventListener('touchend', eEndHandler)
 
 //    function jump() {
 //        let jumpCount = 0;
