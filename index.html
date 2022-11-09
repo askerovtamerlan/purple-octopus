@@ -288,6 +288,7 @@
 
 //    let time;
     let lastTime;
+    let topY = 0;
 
     function pressureAnimation(time) {
         //        console.log('hey')
@@ -297,7 +298,9 @@
         if (JUMPING == 0) {
 //            octopus.style.top = octopusTop + (3 * (16/delta)) + "px"
 //            console.log(16/delta)
-            octopus.style.top = octopusTop + 1 + "px"
+            topY = topY + 1;
+//            octopus.style.top = octopusTop + 1 + "px"
+              octopus.style.transform = `translateY(${topY}px)`;
 //            octopus.style.transform = "translateY(10px)";
 //            octopus.animate([
 //                { transform: 'translateY(5px)'}
@@ -433,26 +436,26 @@
         JUMPING = 0;
     }
 
-    game.addEventListener('mousedown', eStartHandler)
-    game.addEventListener('touchstart', eStartHandler)
+//    game.addEventListener('mousedown', eStartHandler)
+//    game.addEventListener('touchstart', eStartHandler)
+    
+//    game.addEventListener('mouseup', eEndHandler)
+//    game.addEventListener('touchend', eEndHandler)
 
-    game.addEventListener('mouseup', eEndHandler)
-    game.addEventListener('touchend', eEndHandler)
-
-    function jump() {
-        let jumpCount = 0;
-        let jumpInterval = setInterval(function() {
-            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
-            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
-
-            if (jumpCount > 20) {
-                clearInterval(jumpInterval);
-                JUMPING = 0;
-            }
-
-            jumpCount++;
-        }, 10)
-    }
+//    function jump() {
+//        let jumpCount = 0;
+//        let jumpInterval = setInterval(function() {
+//            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+//            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
+//
+//            if (jumpCount > 20) {
+//                clearInterval(jumpInterval);
+//                JUMPING = 0;
+//            }
+//
+//            jumpCount++;
+//        }, 10)
+//    }
 
 </script>
 
