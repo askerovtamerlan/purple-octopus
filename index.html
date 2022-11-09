@@ -221,6 +221,7 @@
         top: 100px;
         left: 100px;
         z-index: 1;
+        will-change: top; 
     }
 
     @media only screen and (max-width: 400px) {
@@ -293,9 +294,16 @@
         const delta = time - lastTime
         let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
 //        console.log(time)
-        if (JUMPING == 0 && lastTime != null) {
-            octopus.style.top = octopusTop + (3 * (16/delta)) + "px"
+        if (JUMPING == 0) {
+//            octopus.style.top = octopusTop + (3 * (16/delta)) + "px"
 //            console.log(16/delta)
+            octopus.style.top = octopusTop + 1 + "px"
+//            octopus.style.transform = "translateY(10px)";
+//            octopus.animate([
+//                { transform: 'translateY(5px)'}
+//            ]).play()
+//            console.log(octopus.style.transform)
+            console.log("hey")
         }
 
 
