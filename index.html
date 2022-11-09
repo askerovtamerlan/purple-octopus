@@ -283,17 +283,19 @@
         score.innerHTML = COUNTER;
     })
 
-    var lastFrame = +new Date;
+//    var lastFrame = +new Date;
 
-    let time;
+//    let time;
     let lastTime;
 
-    function pressureAnimation() {
+    function pressureAnimation(time) {
         //        console.log('hey')
+        const delta = time - lastTime
         let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
-
-        if (JUMPING == 0) {
-            octopus.style.top = octopusTop + 1 + "px"
+//        console.log(time)
+        if (JUMPING == 0 && lastTime != null) {
+            octopus.style.top = octopusTop + (3 * (16/delta)) + "px"
+//            console.log(16/delta)
         }
 
 
@@ -306,7 +308,9 @@
             console.log(octopusTop) // console.log(OCT_SIZE) console.log(bombTop) // alert("Game Over");}
             endGame();
         }
+//        console.log(delta)
 
+        lastTime = time;
         window.requestAnimationFrame(pressureAnimation);
     }
 
