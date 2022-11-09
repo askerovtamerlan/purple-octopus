@@ -221,7 +221,7 @@
         top: 100px;
         left: 100px;
         z-index: 1;
-        will-change: top; 
+        will-change: top;
     }
 
     @media only screen and (max-width: 400px) {
@@ -273,6 +273,31 @@
     const score = document.getElementById("score")
     const result = document.getElementById("result")
 
+    let isMobile;
+    let pressure;
+    
+    
+    // pressure setup dor mobile/desktop
+    
+    isMobile = detectDevice()
+
+        if (isMobile == 1) {
+            pressure = 5;
+        } else {
+            pressure = 1;
+        }
+
+    function detectDevice() {
+        let isMobile = window.matchMedia || window.msMatchMedia;
+        if (isMobile) {
+            let match_mobile = isMobile("(pointer:coarse)");
+            return match_mobile.matches;
+        }
+        return false;
+    }
+
+    // clear default behaivout of devices interact with game
+    
     game.addEventListener(event, () => {
         event.preventDefault();
     })
@@ -284,28 +309,28 @@
         score.innerHTML = COUNTER;
     })
 
-//    var lastFrame = +new Date;
+    //    var lastFrame = +new Date;
 
-//    let time;
+    //    let time;
     let lastTime;
-//    let topY = 0;
+    //    let topY = 0;
 
     function pressureAnimation(time) {
         //        console.log('hey')
         const delta = time - lastTime
         let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
-//        console.log(time)
-        if (JUMPING == 0 && lastTime != 0) {
-            octopus.style.top = octopusTop + (2 * (16/delta)) + "px"
-//            console.log(16/delta)
-//            topY = topY + 2;
-//            octopus.style.top = octopusTop + 1 + "px"
-//              octopus.style.transform = `translateY(${topY}px)`;
-//            octopus.style.transform = "translateY(10px)";
-//            octopus.animate([
-//                { transform: 'translateY(5px)'}
-//            ]).play()
-//            console.log(octopus.style.transform)
+        //        console.log(time)
+        if (JUMPING == 0) {
+            octopus.style.top = octopusTop + pressure + "px";
+            //            console.log(16/delta)
+            //            topY = topY + 2;
+            //            octopus.style.top = octopusTop + 1 + "px"
+            //              octopus.style.transform = `translateY(${topY}px)`;
+            //            octopus.style.transform = "translateY(10px)";
+            //            octopus.animate([
+            //                { transform: 'translateY(5px)'}
+            //            ]).play()
+            //            console.log(octopus.style.transform)
             console.log("hey")
         }
 
@@ -319,7 +344,7 @@
             console.log(octopusTop) // console.log(OCT_SIZE) console.log(bombTop) // alert("Game Over");}
             endGame();
         }
-//        console.log(delta)
+        //        console.log(delta)
 
         lastTime = time;
         window.requestAnimationFrame(pressureAnimation);
@@ -438,24 +463,24 @@
 
     game.addEventListener('mousedown', eStartHandler)
     game.addEventListener('touchstart', eStartHandler)
-    
+
     game.addEventListener('mouseup', eEndHandler)
     game.addEventListener('touchend', eEndHandler)
 
-//    function jump() {
-//        let jumpCount = 0;
-//        let jumpInterval = setInterval(function() {
-//            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
-//            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
-//
-//            if (jumpCount > 20) {
-//                clearInterval(jumpInterval);
-//                JUMPING = 0;
-//            }
-//
-//            jumpCount++;
-//        }, 10)
-//    }
+    //    function jump() {
+    //        let jumpCount = 0;
+    //        let jumpInterval = setInterval(function() {
+    //            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+    //            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
+    //
+    //            if (jumpCount > 20) {
+    //                clearInterval(jumpInterval);
+    //                JUMPING = 0;
+    //            }
+    //
+    //            jumpCount++;
+    //        }, 10)
+    //    }
 
 </script>
 
