@@ -253,12 +253,11 @@
             left: -450px
         }
     }
-
 </style>
 <script>
     var JUMPING = 0;
     var COUNTER = 0;
-    var JUMP_PWR = 0.25;
+    var JUMP_PWR = 1;
     const OCT_LEFT = 150;
     const BOMB_SIZE = 75;
     const OCT_SIZE = 30;
@@ -275,17 +274,18 @@
 
     let isMobile;
     let pressure;
-    
-    
+
+
     // pressure setup dor mobile/desktop
-    
+
     isMobile = detectDevice()
 
-        if (isMobile == 1) {
-            pressure = 5;
-        } else {
-            pressure = 1;
-        }
+    if (isMobile == 1) {
+        pressure = 3;
+        JUMP_PWR = 2;
+    } else {
+        pressure = 1;
+    }
 
     function detectDevice() {
         let isMobile = window.matchMedia || window.msMatchMedia;
@@ -297,13 +297,13 @@
     }
 
     // clear default behaivout of devices interact with game
-    
+
     game.addEventListener(event, () => {
         event.preventDefault();
     })
 
     bomb.addEventListener('animationiteration', () => {
-        let random = Math.random() * 150;
+        let random = Math.random() * 200 - 50;
         bomb.style.top = random + "px";
         COUNTER++;
         score.innerHTML = COUNTER;
@@ -344,13 +344,18 @@
             console.log(octopusTop) // console.log(OCT_SIZE) console.log(bombTop) // alert("Game Over");}
             endGame();
         }
-        //        console.log(delta)
+        console.log(delta)
+        if (octopusTop > 300) {
+            endGame();
+        }
 
         lastTime = time;
         window.requestAnimationFrame(pressureAnimation);
     }
 
     window.requestAnimationFrame(pressureAnimation);
+//    window.requestAnimationFrame(pressureAnimation);
+
 
 
     //    setInterval(function() {
@@ -421,43 +426,62 @@
     var jumpIntervl;
     var jumpCount = 0;
 
-    function eStartHandler() {
-        jumpIntervl = setInterval(function() {
-            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+    function jumpAnimation() {
+        let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+        
+        if (octopusTop > 0 && JUMPING == 1) {
             octopus.style.top = (octopusTop - JUMP_PWR) + "px";
-            jumpCount++;
-            //            console.log(jumpCount);
+        }
 
-            if (octopusTop < 0) {
-                clearInterval(jumpIntervl);
-            }
+        window.requestAnimationFrame(jumpAnimation)
+    }
+    
+    window.requestAnimationFrame(jumpAnimation)
 
-            if (10 < jumpCount && jumpCount < 30) {
-                JUMP_PWR = 0.5
-                JUMPING = 1;
-                //                console.log('h')
-            } else if (30 < jumpCount && jumpCount < 70) {
-                JUMP_PWR = 0.75
-                JUMPING = 1;
-                //                console.log('he')
-            } else if (70 < jumpCount && jumpCount < 300) {
-                JUMP_PWR = 1
-                JUMPING = 1;
-                //                console.log('hey')
-
-            } else if (jumpCount > 300) {
-                clearInterval(jumpIntervl);
-                jumpCount = 0;
-                JUMPING = 0;
-                //                console.log('hoo')
-            }
-
-        }, 10)
+    function eStartHandler() {
+        JUMPING = 1;
+//
+//        
+//        jumpIntervl = setInterval(function() {
+//            let octopusTop = parseInt(window.getComputedStyle(octopus).getPropertyValue("top"));
+//            octopus.style.top = (octopusTop - JUMP_PWR) + "px";
+//            jumpCount++;
+//            JUMPING = 1;
+//            //            console.log(jumpCount);
+//
+//            if (octopusTop < 0) {
+//                clearInterval(jumpIntervl);
+//            }
+//
+//            //            if (10 < jumpCount && jumpCount < 30) {
+//            //                JUMP_PWR = 0.5
+//            //                JUMPING = 1;
+//            //                //                console.log('h')
+//            //            } else if (30 < jumpCount && jumpCount < 70) {
+//            //                JUMP_PWR = 0.75
+//            //                JUMPING = 1;
+//            //                //                console.log('he')
+//            //            } else if (70 < jumpCount && jumpCount < 300) {
+//            //                JUMP_PWR = 1
+//            //                JUMPING = 1;
+//            //                //                console.log('hey')
+//            //
+//            //            } else if (jumpCount > 300) {
+//            //                clearInterval(jumpIntervl);
+//            //                jumpCount = 0;
+//            //                JUMPING = 0;
+//            //                //                console.log('hoo')
+//            //            }
+//
+//        }, 10)
     }
 
     function eEndHandler() {
-        clearInterval(jumpIntervl);
-        jumpCount = 0;
+//        clearInterval(jumpIntervl);
+//        window.cancelAnimationFrame(jumpAnimation)
+//        window.requestAnimationFrame(jumpAnimation)
+
+//        jumpCount = 0;
         JUMPING = 0;
     }
 
@@ -481,7 +505,4 @@
     //            jumpCount++;
     //        }, 10)
     //    }
-
-</script>
-
-</html>
+</script></html>
